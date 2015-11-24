@@ -1,0 +1,5 @@
+api:
+  url:
+    company: http://dev.markitondemand.com/Api/v2/Lookup/json?input={name}
+    quote: http://dev.markitondemand.com/Api/v2/Quote/json?symbol={symbol}
+
