@@ -57,7 +57,6 @@ public class QuotesFetchingService {
 	
 	private Quote getQuoteFallback(String symbol) {
 		logger.debug("Fetching fallback quote for: " + symbol);
-		//Quote quote = restTemplate.getForObject("http://quotes/quote/{symbol}", Quote.class, symbol);
 		Quote quote = new Quote();
 		quote.setSymbol(symbol);
 		quote.setStatus("FAILED");

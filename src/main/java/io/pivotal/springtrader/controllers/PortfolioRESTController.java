@@ -70,14 +70,13 @@ public class PortfolioRESTController {
 		
 		Order savedOrder = portfolioService.addOrder(order);
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setLocation(builder.path("/portfolio/{id}")
-				.buildAndExpand(accountId).toUri());
+		responseHeaders.setLocation(builder.path("/portfolio/{id}").buildAndExpand(accountId).toUri());
 		logger.debug("Order added: " + savedOrder);
 		if (savedOrder != null && savedOrder.getOrderId() != null) {
-			return new ResponseEntity<Order>(savedOrder, responseHeaders, HttpStatus.CREATED);
+			return new ResponseEntity<>(savedOrder, responseHeaders, HttpStatus.CREATED);
 		} else {
 			logger.warn("Order not saved: " + order);
-			return new ResponseEntity<Order>(savedOrder, responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(savedOrder, responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
