@@ -3,3 +3,10 @@ api:
     company: http://dev.markitondemand.com/Api/v2/Lookup/json?input={name}
     quote: http://dev.markitondemand.com/Api/v2/Quote/json?symbol={symbol}
 
+
+pivotal:
+  summary:
+    quotes: 3
+    symbols:
+      it: EMC,ORCL,IBM,INTC,AMD,HPQ,CSCO,AAPL
+      fs: JPM,MS,BAC,GS,WFC,BK

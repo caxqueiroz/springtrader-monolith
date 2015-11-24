@@ -60,8 +60,7 @@ public class AccountController {
 		logger.info("AccountController.getAccount: id=" + id);
 
 		Account accountResponse = this.accountService.getAccount(id);
-		return new ResponseEntity<Account>(accountResponse,
-				getNoCacheHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(accountResponse,getNoCacheHeaders(), HttpStatus.OK);
 
 	}
 
@@ -80,7 +79,7 @@ public class AccountController {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.setLocation(builder.path("/account/{id}").buildAndExpand(accountProfileId).toUri());
 
-		return new ResponseEntity<String>(responseHeaders, HttpStatus.CREATED);
+		return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
 	}
 	/**
 	 * REST call to decrease the balance in the account.
@@ -106,12 +105,12 @@ public class AccountController {
 		if ( newBalance.compareTo(BigDecimal.ZERO) >= 0) {
 			accountResponse.setBalance(newBalance);
 			this.accountService.saveAccount(accountResponse);
-			return new ResponseEntity<Double>(accountResponse.getBalance().doubleValue(),
+			return new ResponseEntity<>(accountResponse.getBalance().doubleValue(),
 					getNoCacheHeaders(), HttpStatus.OK);
 
 		} else {
 			//no sufficient founds available 
-			return new ResponseEntity<Double>(accountResponse.getBalance().doubleValue(),
+			return new ResponseEntity<>(accountResponse.getBalance().doubleValue(),
 					getNoCacheHeaders(), HttpStatus.EXPECTATION_FAILED);
 		}
 	

@@ -32,9 +32,6 @@ public class QuoteService {
 
     @Value("${api.url.quote}")
     private String quoteUrl = "http://dev.markitondemand.com/Api/v2/Quote/json?symbol={symbol}";
-//	  private String quoteUrl = "https://query.yahooapis.com/v1/public/yql?q=select * " +
-//			"from yahoo.finance.quote where symbol in (\"{symbol}\")&format=json&env=store://datatables.org/alltableswithkeys";
-
 
 
     private RestTemplate restTemplate = new RestTemplate();

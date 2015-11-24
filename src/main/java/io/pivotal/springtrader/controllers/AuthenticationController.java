@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -61,13 +62,19 @@ public class AuthenticationController {
 		accountService.logout(userId);
 	}
 	
-	/**
-	 * To ensure no one does login through HTTP GET.
-	 * returns METHOD_NOT_ALLOWED.
-	 */
+//	/**
+//	 * To ensure no one does login through HTTP GET.
+//	 * returns METHOD_NOT_ALLOWED.
+//	 */
+//	@RequestMapping(value = "/login", method = RequestMethod.GET)
+//	@ResponseStatus( HttpStatus.METHOD_NOT_ALLOWED )
+//	public void get() {
+//
+//	}
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	@ResponseStatus( HttpStatus.METHOD_NOT_ALLOWED )
-	public void get() {
-		
+	public String getLogin(Model model, @ModelAttribute(value="login") AuthenticationRequest login) {
+		logger.info("Logging in GET, user: " + login.getUsername());
+		return "index";
 	}
 }

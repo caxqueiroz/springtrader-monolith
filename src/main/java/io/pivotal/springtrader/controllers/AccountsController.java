@@ -37,53 +37,31 @@ public class AccountsController {
 
     @Autowired
     private PortfolioService portfolioService;
-	
-	@RequestMapping(value = "/accounts", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showHome(Model model) {
-
-		if (!model.containsAttribute("authenticationRequest")) model.addAttribute("login", new AuthenticationRequest());
-
+		if (!model.containsAttribute("login")) {
+			model.addAttribute("login", new AuthenticationRequest());
+		}
 		model.addAttribute("marketSummary", quotesFetchingService.getMarketSummary());
-		
+
 		//check if user is logged in!
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-		    String currentUserName = authentication.getName();
-		    logger.debug("User logged in: " + currentUserName);
-		    
-		    try {
-		    	model.addAttribute("portfolio", portfolioService.getPortfolio(currentUserName));
-		    } catch (HttpServerErrorException e) {
-		    	model.addAttribute("portfolioRetrievalError",e.getMessage());
-		    }
-		    model.addAttribute("account", accountService.getAccount(currentUserName));
+			String currentUserName = authentication.getName();
+			logger.debug("User logged in: " + currentUserName);
+
+			try {
+				model.addAttribute("portfolio",portfolioService.getPortfolio(currentUserName));
+			} catch (HttpServerErrorException e) {
+				model.addAttribute("portfolioRetrievalError",e.getMessage());
+			}
+			model.addAttribute("account", accountService.getAccount(currentUserName));
 		}
-		
+
 		return "index";
 	}
-	
-//	//TODO: never gets called?
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public String login(Model model, @ModelAttribute(value="login") AuthenticationRequest authenticationRequest) {
-//
-//		logger.info("Logging in, user: " + authenticationRequest.getUsername());
-//		//need to add account object to session?
-//		//CustomDetails userDetails = (CustomDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		logger.debug("Principal: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-//
-//		Map<String,Object> params = accountService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-//		model.addAllAttributes(params);
-//
-//        //logger.info("got user details, token: " + userDetails.getToken());
-//		return "index";
-//	}
-	
-//	@RequestMapping(value = "/login", method = RequestMethod.GET)
-//	public String getLogin(Model model, @ModelAttribute(value="login") AuthenticationRequest login) {
-//		logger.info("Logging in GET, user: " + login.getUsername());
-//		return "index";
-//	}
-	
+
 	@RequestMapping(value="/logout", method = RequestMethod.POST)
 	public String postLogout(Model model, @ModelAttribute(value="login") AuthenticationRequest login) {
 		logger.info("Logout, user: " + login.getUsername());

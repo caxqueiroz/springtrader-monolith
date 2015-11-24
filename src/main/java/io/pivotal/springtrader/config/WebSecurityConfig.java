@@ -24,21 +24,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private LogoutSuccessHandler logoutSuccessHandler;
-	
-	@Override
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-                .antMatchers("/", "/registration","/hystrix.stream").permitAll()
+                .authorizeRequests()
+                .antMatchers("/", "/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
-            .formLogin()
-                .loginPage("/authenticationRequest")
-                .loginProcessingUrl("/authenticationRequest")
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
                 .permitAll()
                 .and()
-            .logout()
-            .logoutSuccessHandler(logoutSuccessHandler)
+                .logout()
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .permitAll();
     }
 	@Override
