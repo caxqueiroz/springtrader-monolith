@@ -6,10 +6,12 @@ import io.pivotal.springtrader.domain.Quote;
 import io.pivotal.springtrader.exceptions.SymbolNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestOperations;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ import java.util.Map;
  * @author David Ferreira Pinto
  *
  */
-@Component
+@Service
 public class QuoteService {
 
     private static final Logger logger = LoggerFactory.getLogger(QuoteService.class);

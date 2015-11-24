@@ -25,9 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Controller
-public class AccountsController {
+public class MainController {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccountsController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
 	@Autowired
 	private AccountService accountService;

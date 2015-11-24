@@ -33,7 +33,7 @@ public class QuotesFetchingService {
 
 	
 	private static List<String> symbolsIT = Arrays.asList("EMC", "ORCL", "IBM", "INTC", "AMD", "HPQ", "CSCO", "AAPL");
-	private static List<String> symbolsFS = Arrays.asList("JPM", "C", "MS", "BAC", "GS", "WFC","BK");
+	private static List<String> symbolsFS = Arrays.asList("JPM", "MS", "BAC", "GS", "WFC","BK");
 	
 	private MarketSummary summary = new MarketSummary();
 	
