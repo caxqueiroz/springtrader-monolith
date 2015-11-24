@@ -8,7 +8,6 @@ applications:
   path: target/springtrader-monolith-1.0.0-SNAPSHOT.jar
   env:
     SPRING_PROFILES_ACTIVE: cloud
-    CF_TARGET: https://api.pcf-on-aws.net
   services:
     - mysql-dev
 
