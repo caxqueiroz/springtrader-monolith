@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringTraderAppMonolithApplication {
+public class SpringTraderAppMonolith {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringTraderAppMonolithApplication.class, args);
+        SpringApplication.run(SpringTraderAppMonolith.class, args);
     }
 }
