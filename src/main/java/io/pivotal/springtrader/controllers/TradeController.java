@@ -107,8 +107,8 @@ public class TradeController {
 		logger.debug("Fetching quotes for companies that have: " + companyName + " in name or symbol");
 		List<CompanyInfo> companies = quotesFetchingService.getCompanies(companyName);
 		
-		//get district companyinfos and get their respective quotes in parallel.
-		List<Quote> result = companies.stream().collect(Collectors.toCollection(
+		//get distinct company info and get their respective quotes in parallel.
+		List<Quote> result = companies.stream().filter(c -> c.getSymbol()!=null).collect(Collectors.toCollection(
 			      () -> new TreeSet<>((p1, p2) -> p1.getSymbol().compareTo(p2.getSymbol()))
 				)).parallelStream().map(n -> getQuote(n.getSymbol())).collect(Collectors.toList());
 		

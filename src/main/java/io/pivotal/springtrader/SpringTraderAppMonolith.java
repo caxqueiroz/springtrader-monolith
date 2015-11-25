@@ -1,6 +1,8 @@
 package io.pivotal.springtrader;
 
 import com.gemstone.gemfire.cache.Cache;
+import io.pivotal.springtrader.domain.CompanyInfo;
+import io.pivotal.springtrader.domain.Quote;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -22,12 +24,22 @@ public class SpringTraderAppMonolith {
     }
 
     @Bean
-    LocalRegionFactoryBean<Integer, Integer> localRegionFactoryBean(final Cache cache) {
-        return new LocalRegionFactoryBean<Integer, Integer>() {{
-            setCache(cache);
+    LocalRegionFactoryBean<String, Quote> quotesRegionFactoryBean(final Cache cache) {
+        return new LocalRegionFactoryBean<String, Quote>() {{
             setName("quotes");
+            setCache(cache);
             setEnableGateway(false);
             setRegionName("quotes");
+        }};
+    }
+
+    @Bean
+    LocalRegionFactoryBean<String, CompanyInfo> companiesRegionFactoryBean(final Cache cache) {
+        return new LocalRegionFactoryBean<String, CompanyInfo>() {{
+            setName("companies");
+            setEnableGateway(false);
+            setRegionName("companies");
+            setCache(cache);
         }};
     }
 

@@ -11,7 +11,6 @@ import java.util.Date;
  * 
  * @author David Ferreira Pinto
  * @author cq
- * Changed to use Yahoo finance.
  *
  * {
  * "query": {

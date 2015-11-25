@@ -75,6 +75,7 @@ public class QuoteService {
 	 * @param name The search parameter for company name or symbol.
 	 * @return The list of company information.
 	 */
+    @Cacheable("companies")
 	public List<CompanyInfo> getCompanyInfo(String name) {
 		logger.debug("QuoteService.getCompanyInfo: retrieving info for: " + name);
 
