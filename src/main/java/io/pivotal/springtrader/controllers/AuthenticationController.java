@@ -65,6 +65,11 @@ public class AuthenticationController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String getLogin(Model model, @ModelAttribute(value="login") AuthenticationRequest login) {
 		logger.info("Logging in GET, user: " + login.getUsername());
+		if(login.getUsername()==null) {
+            if (!model.containsAttribute("login")) {
+                model.addAttribute("login", new AuthenticationRequest());
+            }
+        }
 		return "index";
 	}
 }

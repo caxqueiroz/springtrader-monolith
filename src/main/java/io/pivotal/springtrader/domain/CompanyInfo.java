@@ -41,6 +41,8 @@ public class CompanyInfo {
 	public void setExchange(String exchange) {
 		this.exchange = exchange;
 	}
+
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

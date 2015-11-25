@@ -83,8 +83,9 @@ public class QuoteService {
             Map<String, String> params = new HashMap<String, String>();
             params.put("name", name);
             CompanyInfo[] companies = restOperations.getForObject(companyUrl, CompanyInfo[].class, params);
-            logger.debug("QuoteService.getCompanyInfo: retrieved info: " + companies);
-            return Arrays.asList(companies);
+            List<CompanyInfo> companiesInfo = Arrays.asList(companies);
+            logger.debug("QuoteService.getCompanyInfo: retrieved info: " + companiesInfo);
+            return companiesInfo;
         }catch(Exception e){
             logger.error(e.getMessage(),e);
         }

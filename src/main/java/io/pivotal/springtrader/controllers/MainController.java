@@ -6,7 +6,6 @@ import io.pivotal.springtrader.domain.AuthenticationRequest;
 import io.pivotal.springtrader.services.AccountService;
 import io.pivotal.springtrader.services.PortfolioService;
 import io.pivotal.springtrader.services.QuotesFetchingService;
-import io.pivotal.springtrader.utils.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
