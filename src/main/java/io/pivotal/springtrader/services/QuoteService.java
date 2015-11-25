@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * A service to retrieve Company and Quote information.
@@ -85,7 +86,7 @@ public class QuoteService {
             CompanyInfo[] companies = restOperations.getForObject(companyUrl, CompanyInfo[].class, params);
             List<CompanyInfo> companiesInfo = Arrays.asList(companies);
             logger.debug("QuoteService.getCompanyInfo: retrieved info: " + companiesInfo);
-            return companiesInfo;
+            return companiesInfo.stream().filter(c-> c!=null).collect(Collectors.toList());
         }catch(Exception e){
             logger.error(e.getMessage(),e);
         }

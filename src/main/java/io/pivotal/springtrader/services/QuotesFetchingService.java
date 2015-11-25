@@ -49,7 +49,7 @@ public class QuotesFetchingService {
 			return quoteService.getQuote(symbol);
 		} catch (SymbolNotFoundException e) {
 			logger.error(e.getMessage(),e);
-			return null;
+			return new Quote();
 		}
 
 	}
