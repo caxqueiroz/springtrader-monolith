@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.*;
 
 /**
  * Tests the QuoteService.
@@ -68,6 +68,17 @@ public class QuoteServiceIntegrationTest {
 	public void getNullCompanyInfo() throws Exception {
 		List<CompanyInfo> comps = quoteService.getCompanyInfo(TestData.NULL_QUOTE_SYMBOL);
 		assertTrue(comps.isEmpty());
+	}
+
+	@Test
+	public void searchForCompanies() throws Exception{
+		List<CompanyInfo> comps = quoteService.getCompanyInfo("alphabet");
+        comps.stream().forEach(System.out::println);
+        assertThat(comps.size(),greaterThan(1));
+        assertThat(comps.stream().anyMatch(c-> c.getSymbol().equalsIgnoreCase("GOOGL")), equalTo(true));
+        assertThat(comps.stream().anyMatch(c-> c.getSymbol().equalsIgnoreCase("GOOG")), equalTo(true));
+
+
 	}
 	
 }

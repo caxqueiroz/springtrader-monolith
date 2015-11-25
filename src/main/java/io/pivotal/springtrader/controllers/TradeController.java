@@ -108,12 +108,13 @@ public class TradeController {
 		List<CompanyInfo> companies = quotesFetchingService.getCompanies(companyName);
 		
 		//get distinct company info and get their respective quotes in parallel.
-		List<Quote> result = companies.stream().filter(c -> c.getSymbol()!=null).collect(Collectors.toCollection(
-			      () -> new TreeSet<>((p1, p2) -> p1.getSymbol().compareTo(p2.getSymbol()))
-				)).parallelStream().map(n -> getQuote(n.getSymbol())).collect(Collectors.toList());
-		
-		List<Quote> quotes = result.parallelStream().filter(n-> n.getStatus()!=null).filter(n -> n.getStatus().startsWith("SUCCESS")).collect(Collectors.toList());
-		return quotes;
+		return companies.stream()
+				.filter(c -> c.getSymbol()!=null)
+				.collect(Collectors.toCollection(() -> new TreeSet<>((p1, p2) -> p1.getSymbol().compareTo(p2.getSymbol()))))
+				.parallelStream().map(n -> getQuote(n.getSymbol()))
+				.filter(n-> n.getStatus()!=null)
+				.filter(n -> n.getStatus().startsWith("SUCCESS"))
+				.collect(Collectors.toList());
 	}
 
 	private void checkUserAuthentication(Model model) {
