@@ -49,7 +49,7 @@ public class AccountController {
 
 		logger.info("AccountController.find: id=" + id);
 
-		Account accountResponse = this.accountService.getAccount(id);
+		Account accountResponse = accountService.getAccount(id);
 		return new ResponseEntity<>(accountResponse, getNoCacheHeaders(), HttpStatus.OK);
 
 	}
@@ -75,7 +75,7 @@ public class AccountController {
 
 		logger.debug("AccountController.save: userId=" + accountRequest.getUserid());
 
-		Integer accountProfileId = this.accountService.saveAccount(accountRequest);
+		Integer accountProfileId = accountService.saveAccount(accountRequest);
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.setLocation(builder.path("/account/{id}").buildAndExpand(accountProfileId).toUri());
 
@@ -96,7 +96,7 @@ public class AccountController {
 
 		logger.debug("AccountController.decreaseBalance: id='" + userId + "', amount='"+amount+"'");
 
-		Account accountResponse = this.accountService.getAccount(userId);
+		Account accountResponse = accountService.getAccount(userId);
 		
 		BigDecimal currentBalance = accountResponse.getBalance();
 		
@@ -104,7 +104,7 @@ public class AccountController {
 		
 		if ( newBalance.compareTo(BigDecimal.ZERO) >= 0) {
 			accountResponse.setBalance(newBalance);
-			this.accountService.saveAccount(accountResponse);
+			accountService.saveAccount(accountResponse);
 			return new ResponseEntity<>(accountResponse.getBalance().doubleValue(),
 					getNoCacheHeaders(), HttpStatus.OK);
 

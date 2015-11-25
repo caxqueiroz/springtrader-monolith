@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class QuoteService {
     private String quoteUrl = "http://dev.markitondemand.com/Api/v2/Quote/json?symbol={symbol}";
 
 
-    private RestTemplate restTemplate = new RestTemplate();
+    RestOperations restOperations = new RestTemplate();
 
 	/**
 	 * Retrieves an up to date quote for the given symbol.
@@ -53,7 +53,7 @@ public class QuoteService {
 
 
 
-	    Quote quote = restTemplate.getForObject(quoteUrl, Quote.class, params);
+	    Quote quote = restOperations.getForObject(quoteUrl, Quote.class, params);
         logger.debug("QuoteService.getQuote: retrieved quote: " + quote);
         
         if (quote.getSymbol() ==  null) {
@@ -74,7 +74,7 @@ public class QuoteService {
 		logger.debug("QuoteService.getCompanyInfo: retrieving info for: " + name);
 		Map<String, String> params = new HashMap<String, String>();
 	    params.put("name", name);
-	    CompanyInfo[] companies = restTemplate.getForObject(companyUrl, CompanyInfo[].class, params);
+	    CompanyInfo[] companies = restOperations.getForObject(companyUrl, CompanyInfo[].class, params);
 	    logger.debug("QuoteService.getCompanyInfo: retrieved info: " + companies);
 		return Arrays.asList(companies);
 	}

@@ -61,16 +61,6 @@ public class AuthenticationController {
 		logger.debug("AuthenticationController.logout: logout request for userid: " + userId);
 		accountService.logout(userId);
 	}
-	
-//	/**
-//	 * To ensure no one does login through HTTP GET.
-//	 * returns METHOD_NOT_ALLOWED.
-//	 */
-//	@RequestMapping(value = "/login", method = RequestMethod.GET)
-//	@ResponseStatus( HttpStatus.METHOD_NOT_ALLOWED )
-//	public void get() {
-//
-//	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String getLogin(Model model, @ModelAttribute(value="login") AuthenticationRequest login) {
