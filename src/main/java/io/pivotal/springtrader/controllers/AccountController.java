@@ -3,6 +3,7 @@ package io.pivotal.springtrader.controllers;
 
 import io.pivotal.springtrader.domain.Account;
 import io.pivotal.springtrader.services.AccountService;
+import io.pivotal.springtrader.utils.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
+
+import static io.pivotal.springtrader.utils.Helper.getNoCacheHeaders;
 
 /**
  * REST controller for the io.pivotal.springtrader.accounts.accounts microservice.
@@ -134,7 +137,7 @@ public class AccountController {
 
             double currentBalance = accountService.increaseBalance(amount, userId);
             logger.debug("AccountController.increaseBalance: current balance='" + currentBalance + "'.");
-            return new ResponseEntity<>(currentBalance,getNoCacheHeaders(),HttpStatus.OK);
+            return new ResponseEntity<>(currentBalance, getNoCacheHeaders(),HttpStatus.OK);
 
         } else {
 
@@ -145,9 +148,5 @@ public class AccountController {
 	
 	}
 	
-	private HttpHeaders getNoCacheHeaders() {
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("Cache-Control", "no-cache");
-		return responseHeaders;
-	}
+
 }

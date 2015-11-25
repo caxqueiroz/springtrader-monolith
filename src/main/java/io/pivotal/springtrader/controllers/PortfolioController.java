@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static io.pivotal.springtrader.utils.Helper.generateError;
+
 @Controller
 public class PortfolioController {
 
@@ -58,12 +60,7 @@ public class PortfolioController {
 	@ExceptionHandler({ Exception.class })
 	public ModelAndView error(HttpServletRequest req, Exception exception) {
 		logger.debug("Handling error: " + exception);
-		ModelAndView model = new ModelAndView();
-		model.addObject("errorCode", exception.getMessage());
-		model.addObject("errorMessage", exception);
-		model.setViewName("error");
-		exception.printStackTrace();
-		return model;
+		return generateError(exception);
 	}
 
 }

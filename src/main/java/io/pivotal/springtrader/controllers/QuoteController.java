@@ -8,7 +8,6 @@ import io.pivotal.springtrader.services.QuoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+
+import static io.pivotal.springtrader.utils.Helper.getNoCacheHeaders;
 
 /**
  * Rest Controller providing the REST API for the Quote Service.
@@ -63,16 +64,6 @@ public class QuoteController {
 		List<CompanyInfo> companies = quoteService.getCompanyInfo(name);
 		logger.info(String.format("Retrieved companies with search parameter: %s - list: {}", name), companies);
 		return new ResponseEntity<>(companies, HttpStatus.OK);
-	}
-	
-	/**
-	 * Generates HttpHeaders that have the no-cache set.
-	 * @return HttpHeaders.
-	 */
-	private HttpHeaders getNoCacheHeaders() {
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("Cache-Control", "no-cache");
-		return responseHeaders;
 	}
 	
 	/**

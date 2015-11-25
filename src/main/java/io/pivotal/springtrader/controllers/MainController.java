@@ -6,6 +6,7 @@ import io.pivotal.springtrader.domain.AuthenticationRequest;
 import io.pivotal.springtrader.services.AccountService;
 import io.pivotal.springtrader.services.PortfolioService;
 import io.pivotal.springtrader.services.QuotesFetchingService;
+import io.pivotal.springtrader.utils.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+
+import static io.pivotal.springtrader.utils.Helper.generateError;
 
 @Controller
 public class MainController {
@@ -93,11 +96,6 @@ public class MainController {
 	@ExceptionHandler({ Exception.class })
 	public ModelAndView error(HttpServletRequest req, Exception exception) {
 		logger.debug("Handling error: " + exception);
-		ModelAndView model = new ModelAndView();
-		model.addObject("errorCode", exception.getMessage());
-		model.addObject("errorMessage", exception);
-		model.setViewName("error");
-		exception.printStackTrace();
-		return model;
+		return generateError(exception);
 	}
 }

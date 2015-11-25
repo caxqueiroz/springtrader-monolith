@@ -6,10 +6,10 @@ import io.pivotal.springtrader.domain.Quote;
 import io.pivotal.springtrader.exceptions.SymbolNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,16 +24,16 @@ import java.util.Map;
  * @author David Ferreira Pinto
  *
  */
-@Service
+@Component
 public class QuoteService {
 
     private static final Logger logger = LoggerFactory.getLogger(QuoteService.class);
 
 	@Value("${api.url.company}")
-    private String companyUrl = "http://dev.markitondemand.com/Api/v2/Lookup/json?input={name}";
+    private String companyUrl = "http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input={name}";
 
     @Value("${api.url.quote}")
-    private String quoteUrl = "http://dev.markitondemand.com/Api/v2/Quote/json?symbol={symbol}";
+    private String quoteUrl = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol={symbol}";
 
 
     RestOperations restOperations = new RestTemplate();
@@ -45,22 +45,27 @@ public class QuoteService {
 	 * @return The quote object or null if not found.
 	 * @throws SymbolNotFoundException 
 	 */
-	@Cacheable("quotes")
+    @Cacheable("quotes")
 	public Quote getQuote(String symbol) throws SymbolNotFoundException {
 		logger.debug("QuoteService.getQuote: retrieving quote for: " + symbol);
-		Map<String, String> params = new HashMap<String, String>();
-	    params.put("symbol", symbol);
+        Quote quote = new Quote();
+        try{
 
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("symbol", symbol);
 
+            quote = restOperations.getForObject(quoteUrl, Quote.class, params);
+            logger.debug("QuoteService.getQuote: retrieved quote: " + quote);
 
-	    Quote quote = restOperations.getForObject(quoteUrl, Quote.class, params);
-        logger.debug("QuoteService.getQuote: retrieved quote: " + quote);
-        
-        if (quote.getSymbol() ==  null) {
-        	throw new SymbolNotFoundException("Symbol not found: " + symbol);
+        } catch(Exception e){
+            logger.error(e.getMessage(),e);
         }
 
-		return quote;
+        if (quote.getSymbol() ==  null) {
+            throw new SymbolNotFoundException("Symbol not found: " + symbol);
+        }
+        return quote;
+
 	}
 	
 	/**
@@ -72,10 +77,18 @@ public class QuoteService {
 	 */
 	public List<CompanyInfo> getCompanyInfo(String name) {
 		logger.debug("QuoteService.getCompanyInfo: retrieving info for: " + name);
-		Map<String, String> params = new HashMap<String, String>();
-	    params.put("name", name);
-	    CompanyInfo[] companies = restOperations.getForObject(companyUrl, CompanyInfo[].class, params);
-	    logger.debug("QuoteService.getCompanyInfo: retrieved info: " + companies);
-		return Arrays.asList(companies);
+
+        try {
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("name", name);
+            CompanyInfo[] companies = restOperations.getForObject(companyUrl, CompanyInfo[].class, params);
+            logger.debug("QuoteService.getCompanyInfo: retrieved info: " + companies);
+            return Arrays.asList(companies);
+        }catch(Exception e){
+            logger.error(e.getMessage(),e);
+        }
+
+        return Arrays.asList(new CompanyInfo());
+
 	}
 }

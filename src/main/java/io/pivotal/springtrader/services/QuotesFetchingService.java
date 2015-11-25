@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +28,7 @@ public class QuotesFetchingService {
 	private final static long REFRESH_PERIOD = 600000l;
 
 	@Autowired
-	private QuoteService quoteService;
+	QuoteService quoteService;
 
 	
 	private static List<String> symbolsIT = Arrays.asList("EMC", "ORCL", "IBM", "INTC", "AMD", "HPQ", "CSCO", "AAPL");
@@ -55,26 +54,13 @@ public class QuotesFetchingService {
 
 	}
 	
-	private Quote getQuoteFallback(String symbol) {
-		logger.debug("Fetching fallback quote for: " + symbol);
-		Quote quote = new Quote();
-		quote.setSymbol(symbol);
-		quote.setStatus("FAILED");
-		return quote;
-	}
-
 	public List<CompanyInfo> getCompanies(String name) {
 		logger.debug("Fetching companies with name or symbol matching: " + name);
 		return quoteService.getCompanyInfo(name);
 
 	}
 
-	private List<CompanyInfo> getCompaniesFallback(String name) {
-		List<CompanyInfo> infos = new ArrayList<>();
-		return infos;
-	}
 
-	
 	//TODO: prime location for a redis/gemfire caching service!
 	@Scheduled(fixedRate = REFRESH_PERIOD)
 	protected void retrieveMarketSummary() {

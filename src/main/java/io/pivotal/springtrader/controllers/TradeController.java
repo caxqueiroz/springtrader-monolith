@@ -7,6 +7,7 @@ import io.pivotal.springtrader.domain.Quote;
 import io.pivotal.springtrader.domain.Search;
 import io.pivotal.springtrader.services.QuotesFetchingService;
 import io.pivotal.springtrader.services.PortfolioService;
+import io.pivotal.springtrader.utils.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +112,7 @@ public class TradeController {
 			      () -> new TreeSet<>((p1, p2) -> p1.getSymbol().compareTo(p2.getSymbol()))
 				)).parallelStream().map(n -> getQuote(n.getSymbol())).collect(Collectors.toList());
 		
-		List<Quote> quotes = result.parallelStream().filter(n -> n.getStatus().startsWith("SUCCESS")).collect(Collectors.toList());
+		List<Quote> quotes = result.parallelStream().filter(n-> n.getStatus()!=null).filter(n -> n.getStatus().startsWith("SUCCESS")).collect(Collectors.toList());
 		return quotes;
 	}
 
@@ -133,12 +134,7 @@ public class TradeController {
 	@ExceptionHandler({ Exception.class })
 	public ModelAndView error(HttpServletRequest req, Exception exception) {
 		logger.debug("Handling error: " + exception);
-		ModelAndView model = new ModelAndView();
-		model.addObject("errorCode", exception.getMessage());
-		model.addObject("errorMessage", exception);
-		model.setViewName("error");
-		exception.printStackTrace();
-		return model;
+		return Helper.generateError(exception);
 	}
 
     private Quote getQuote(String quote){

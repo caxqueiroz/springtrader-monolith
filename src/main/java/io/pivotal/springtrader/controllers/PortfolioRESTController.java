@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import static io.pivotal.springtrader.utils.Helper.getNoCacheHeaders;
+
 /**
  * Provides the REST API for the portfolio portfolioService.
  * 
@@ -48,12 +50,7 @@ public class PortfolioRESTController {
 		logger.debug("PortfolioController: Retrieved portfolio:" + folio);
 		return new ResponseEntity<>(folio, getNoCacheHeaders(), HttpStatus.OK);
 	}
-	
-	private HttpHeaders getNoCacheHeaders() {
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("Cache-Control", "no-cache");
-		return responseHeaders;
-	}
+
 	/**
 	 * Adds an order to the portfolio of the given account.
 	 * 
