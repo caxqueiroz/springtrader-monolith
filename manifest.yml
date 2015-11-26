@@ -1,7 +1,7 @@
 ---
 applications:
 - name: springtrader-monolith
-  host: springtrader-monolith-${random-word}
+  host: springtrader-monolith
   memory: 1G
   instances: 1
   timeout: 90

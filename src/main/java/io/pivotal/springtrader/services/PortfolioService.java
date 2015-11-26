@@ -21,7 +21,7 @@ import java.util.List;
  * Manages a portfolio of holdings of stock/shares.
  * 
  * @author David Ferreira Pinto
- *
+ * @author cq
  */
 @Component
 public class PortfolioService {
