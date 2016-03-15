@@ -20,9 +20,29 @@ spring:
 ---
 
 spring:
-  profiles: default
+  profiles: oracle
   jpa:
-    database: H2
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+#    database: org.hibernate.dialect.Oracle10gDialect
+
+  datasource:
+#    driverClassName=oracle.jdbc.driver.OracleDriver
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@//172.16.168.242:1521/XE
+    username: pivotal
+    password: pivotal
+
+---
+
+spring:
+  profiles: cloud-oracle
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+#    database: org.hibernate.dialect.Oracle10gDialect
+
+  datasource:
+#    driverClassName=oracle.jdbc.driver.OracleDriver
+    driver-class-name: oracle.jdbc.driver.OracleDriver
 
 ---
 
